@@ -33,7 +33,7 @@ def scrape_info():
     #-------------------------------------------------------------------------------------
 
     # Visit JPL url:
-    jpl_url  = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
+    jpl_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars#submit'
     browser.visit(jpl_url )
     browser.is_element_present_by_css("ul.item_list li.slide", wait_time = 1)
 
@@ -77,7 +77,7 @@ def scrape_info():
     #-------------------------------------------------------------------------------------
 
     # Visit USGS url:
-    usgs_url = "https://astrogeology.usgs.gov/"
+    usgs_url = "https://astrogeology.usgs.gov"
 
     # Since we must go into each hemisphere's link to gather the appropiate image_url
     # Loop and iterate through all four hemisphere's link:
@@ -97,7 +97,7 @@ def scrape_info():
         executable_path = {'executable_path':'C://Users/mgban/Desktop/chromedriver.exe'}
         browser = Browser('chrome', **executable_path, headless=False)
         browser.visit(url)
-        browser.is_element_present_by_css("ul.item_list li.slide", wait_time = 1)
+        browser.is_element_present_by_css("ul.item_list li.slide", wait_time = 10)
         
         # HTML object:
         html = browser.html
@@ -110,8 +110,8 @@ def scrape_info():
         
         # Storing the 'title' and 'img_url':
         img_url_list.append({
-            'Image Title': title, 
-            'Image URL': usgs_url + img_url
+            'Image_Title': title, 
+            'Image_URL': usgs_url + img_url
         })
 
     # Creating Python Dictionary:
@@ -120,7 +120,7 @@ def scrape_info():
         'News_Pg': news_parag,
         'Featured_Img_URL': featured_image_url,
         'Mars_Facts_Table': mars_table,
-        'Image_URL_List': img_url_list,
+        'Images': img_url_list,
     }
 
     # Close the browser after scraping:

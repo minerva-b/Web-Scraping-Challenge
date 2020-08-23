@@ -34,13 +34,18 @@
     <div id="mars_hemi_text" class="col-lg-12 row"> <!--TEXT ALIGN CENTER-->
         <h2><b>Mars Hemispheres</b></h2>
     </div>
+    <div id="testing" class="col-lg-12 row">
     <div id="mars_hemispheres_pt_1" class="col-lg-6 row">
-        <img src="{{ mars.Image_URL_List[0] }}" class="img-responsive">
-        <img src="{{ mars.Image_URL_List[1] }}" class="img-responsive">
+        <img src="{{ mars.Images[1].Image_URL }}" class="img-responsive">
+        <h4>{{ mars.Images[0].Image_Title }}</h4>
+        <img src="{{ mars.Images[3].Image_URL }}" class="img-responsive">
+        <h4>{{ mars.Images[2].Image_Title }}</h4>
     </div>
     <div id="mars_hemispheres_pt_2" class="col-lg-6 row">
-        <img src="{{ mars.Image_URL_List[2] }}" class="img-responsive">
-        <img src="{{ mars.Image_URL_List[3] }}" class="img-responsive">
+        <img src="{{ mars.Images[5].Image_URL }}" class="img-responsive">
+        <h4>{{ mars.Images[4].Image_Title }}</h4>
+        <img src="{{ mars.Images[7].Image_URL }}" class="img-responsive">
+        <h4>{{ mars.Images[6].Image_Title }}</h4>
     </div>
   </div>
 
