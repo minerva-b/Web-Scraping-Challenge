@@ -24,11 +24,8 @@ def scrape():
     nasa_soup = bs(html, "html.parser")
 
     # Scraping the lastest Mars 'News Title' and 'News Text':
-    news_title = nasa_soup.find("div.content_title").text
-    news_text = nasa_soup.find("div.article_teaser_body").text
-
-    # Closing the browser after scraping:
-    browser.quit()
+    news_title = nasa_soup.find("div", class_="content_title").text
+    news_text = nasa_soup.find("div", class_="article_teaser_body").text
 
     #-------------------------------------------------------------------------------------
 
@@ -46,14 +43,11 @@ def scrape():
     featured_image_path = jpl_soup.find('a', class_='button fancybox').get('data-fancybox-href').strip()
     featured_image_url = base_url + featured_image_path
 
-    # Closing the browser after scraping:
-    browser.quit()
-
     #-------------------------------------------------------------------------------------
 
     # Visit Space Facts url:
     space_facts_url = "https://space-facts.com/mars/"
-    browser.visit(space_facts_url)
+    # browser.visit(space_facts_url)
 
     # Scrape page into space_soup:
     html=browser.html
@@ -69,16 +63,8 @@ def scrape():
     mars_facts =df.rename(columns={0: "", 1: "Mars"})
 
     # Using pandas to generate HTML table from DF:
-    html_table = mars_facts.to_html()
-
-    # Strip the unwanted newlines to clean up table:
-    html_table.replace("\n", "")
-
-    # Saving the table as an html file:
-    mars_html = mars_facts.to_html("mars_html.html", index=False)
-
-    # Closing the browser after scraping:
-    browser.quit()
+    html_table = mars_facts.to_html(index=False)
+    print(html_table)
 
     #-------------------------------------------------------------------------------------
 
@@ -90,7 +76,7 @@ def scrape():
 
     # HTML Object:
     html = browser.html
-    time.sleep(10)
+    # time.sleep(10)
     # Parse HTML with BeautifulSoup (bs) "html.parser" or "lxml":
     hemi_soup = bs(html, "html.parser")
 
@@ -102,45 +88,42 @@ def scrape():
     mars_imgs = []
 
     # A loop to iterate through all four links:
-    for i in range(4):
-        try:
-            # Find the link:
-            # browser.find_by_css("a.product-item h3")[i].click()
-            time.sleep(1)
-            # Find the "Image Title":
-            img_title = i.find("h2", class_="title").text
-            # Find the path to the image:
-            img_pg_url = i.find("a")["href"]
-            # Combining the usgs url with the image path to get the "Image URL":
-            img_url = base_usgs_url + img_pg_url
-            # Visit the image's url:
-            browser.visit(img_url)
-            # HTML Object:
-            img_html = browser.html
-            # Parse HTML with BeautifulSoup (bs) "html.parser" or "lxml":
-            img_soup = bs(img_html, "html.parser")
-            # Find the full image(s):
-            img = img_soup.find("img", class_="wide-image")["src"]
-            full_img = base_usgs_url + img
-            # Storing the titles and images into the list:
-            mars_imgs.append({
-                "image_title": img_title,
-                "image_link": full_img
-            })
-        except Exception as e:
-            print(e)
-
-        # Closing the browser after scraping:
-        browser.quit()
+    for i in hemi_item:
+        # Slow down browser:
+        time.sleep(1)
+        # Find the "Image Title":
+        img_title = i.find("h3").text
+        # Find the path to the image:
+        img_pg_url = i.find("a")["href"]
+        # Combining the usgs url with the image path to get the "Image URL":
+        img_url = base_usgs_url + img_pg_url
+        # Visit the image's url:
+        browser.visit(img_url)
+        # HTML Object:
+        img_html = browser.html
+        # Parse HTML with BeautifulSoup (bs) "html.parser" or "lxml":
+        img_soup = bs(img_html, "html.parser")
+        # Find the full image(s):
+        img = img_soup.find("img", class_="wide-image")["src"]
+        full_img = base_usgs_url + img
+        
+        # Storing the titles and images into the list:
+        mars_imgs.append({
+            "image_title": img_title,
+            "image_link": full_img
+        })
 
     # Creating a dictionary for all of the scraped/collected mars data from all websites:
     mars_info = {
         "news_title": news_title,
         "news_text": news_text,
         "featured_image": featured_image_url,
-        "mars_facts_table": mars_html,
+        "mars_facts_table": html_table,
         "images": mars_imgs
     }
+
+    # Closing the browser after scraping:
+    browser.quit()
 
     # Return results:
     return mars_info
