@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Scraping Mars Data</title>
+  <title>Mission to Mars</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
@@ -13,42 +13,69 @@
   <div class="container-fluid">
     <div class="jumbotron text-center">
       <h1>Mission to Mars</h1>
-      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape for Latest Data</a></p>
     </div>
-    <div id="latest_mars_news" class="col-lg-12 row">
-        <h2><b>Latest Mars News</b></h2>
-            <h2><b></b></h2>
-            <h3>{{ mars.News_Title }}</h3>
-                <p>{{ mars.News_Pg }}</p>
+    <div id="mars_news" class="col-lg-12 row">
+      <h2><b>Latest Mars News</b></h2>
+      <h3><b>{{ mars.news_title }}</b></h3>
+      <p>{{ mars.news_text }}</p>
     </div>
-    <div id="mars_feat_facts" class="row">
-        <div class="col-lg-8">
-            <h2><b>Featured Mars Image</b></h2>
-            <img src="{{ mars.Featured_Img_URL }}" alt="mars_feature" class="img-responsive">
+    <div id="feat_img" class="row">
+      <div class="col-lg-8">
+        <h2><b>Featured Mars Image</b></h2>
+        <img src="{{ mars.featured_image }}" class="img-responsive" alt="featured_img">
+      </div>
+      <div class="col-lg-4">
+        <h4 class="text-right"><b>Mars Facts</b></h4>
+        <div class="table-responsive">
+          <table class="table">
+            {{ mars.mars_html | safe }}
+          </table>
         </div>
-        <div class="col-lg-4">
-            <h4><b>Mars Fact</b></h4>
-            <div class="table-responsive">{{ mars.Mars_Facts_Table}}</div>
-        </div>
+      </div>
     </div>
-    <div id="mars_hemi_text" class="col-lg-12 row"> <!--TEXT ALIGN CENTER-->
-        <h2><b>Mars Hemispheres</b></h2>
+    <div class="row">
+      <div id="mars_hemi_title" class="col-lg-12 row">
+        <h2 class="text-center"><b>Mars Hemispheres</b></h2>
+        <hr/>
+      </div>
     </div>
-    <div id="testing" class="col-lg-12 row">
-    <div id="mars_hemispheres_pt_1" class="col-lg-6 row">
-        <img src="{{ mars.Images[1].Image_URL }}" class="img-responsive">
-        <h4>{{ mars.Images[0].Image_Title }}</h4>
-        <img src="{{ mars.Images[3].Image_URL }}" class="img-responsive">
-        <h4>{{ mars.Images[2].Image_Title }}</h4>
+    <div id="hemis" class="row">
+      <div id="hemispheres_img_1" class="col-sm-6 col-lg-6">
+        {% for img in mars.images %}
+        <figure class="figure">
+            <img class="card-img" src="{{img['image_link']}}" class="img-responsive">
+            <h4 class="text-center"><b>{{img['image_title']}}</b></h4>
+        </figure>
+      </div>
+      <!-- <div id="hemispheres_img_2" class="col-sm-6 col-lg-6">
+        <figure class="figure">
+            <img src="{{ mars.images[1]['image_link'] }}" class="img-responsive">
+            <h4 class="text-center"><b>{{ mars.images[1]['image_title'] }}</b></h4>
+        </figure>
+      </div>
+      <div id="hemispheres_img_3" class="col-sm-6 col-lg-6">
+        <figure class="figure">
+            <img src="{{ mars.images[2]['image_link'] }}" class="img-responsive">
+            <h4 class="text-center"><b>{{ mars.images[2]['image_title'] }}</b></h4>
+        </figure>
+      </div>
+      <div id="hemispheres_img_4" class="col-sm-6 col-lg-6">
+        <figure class="figure">
+            <img src="{{ mars.images[3]['image_link'] }}" class="img-responsive">
+            <h4 class="text-center"><b>{{ mars.images[3]['image_title'] }}</b></h4>
+        </figure>
+      </div> -->
+      {% endfor %}
     </div>
-    <div id="mars_hemispheres_pt_2" class="col-lg-6 row">
-        <img src="{{ mars.Images[5].Image_URL }}" class="img-responsive">
-        <h4>{{ mars.Images[4].Image_Title }}</h4>
-        <img src="{{ mars.Images[7].Image_URL }}" class="img-responsive">
-        <h4>{{ mars.Images[6].Image_Title }}</h4>
-    </div>
+
+
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  
 </body>
 
 </html>
